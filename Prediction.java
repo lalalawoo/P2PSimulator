@@ -16,7 +16,11 @@ public class Prediction{
 	}
 
 	public static double ema(ArrayList<Integer> churns, ArrayList<Double> emas, int OL){
-		double alpha = bestSmoothingFactor(churns, emas);
+		double alpha = 2.0/(OL+1);
+		final int lastObservation = churns.get(churns.size() - 1);
+		final double lastEMA = emas.get(emas.size() - 1);
+		// EMA today = EMA_yesterday + alpha * (value_today - EMA_yesterday)
+		return lastEMA + (alpha * (lastObservation - lastEMA));	
 	
 	}
 	
