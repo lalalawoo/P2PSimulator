@@ -1,3 +1,5 @@
+package P2PSimulator;
+
 import java.util.Random;
 
 public class Churn{

@@ -1,6 +1,11 @@
+package P2PSimulator;
+
 import java.util.ArrayList;
 
 public class Prediction{
+	
+	//hello world
+	
 	
 	public double sma(ArrayList<Integer> churns, ArrayList<Double> smas, int OL){
 		double sma = 0;
