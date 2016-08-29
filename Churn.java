@@ -1,12 +1,16 @@
 package P2PSimulator;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Churn{
-	private static int mMaxPeers = 1000;
 	
-	public static int generate(int peerSize, double churnRate){
+	private static double mChurnFluctuation = 10;
+	private static int mInitChurn = 100;
+	
+	public static int generate(ArrayList<Integer> leavingChurns){
 		Random r = new Random();
-		return r.nextInt(peerSize);
+		int lastChurn = leavingChurns.size()==0? mInitChurn :leavingChurns.get(leavingChurns.size()-1);
+		return (int)(r.nextGaussian()*mChurnFluctuation)+lastChurn;		
 	}	
 }
