@@ -73,4 +73,31 @@ public class Prediction{
 		double r2 = ssr / yybar;
 		return r2;
 	}
+	
+	
+	public static double pidfe(ArrayList<Integer> churns, ArrayList<Double> emas, int OL, double k1, double k2, double k3){
+		double result;
+		final int lastObservation = churns.get(churns.size() - 1);
+		final double lastEMA = emas.get(emas.size() - 1);
+		
+		// averaging part
+		double sma = 0;
+		for(int i=0;i<OL;i++){
+				sma+=churns.get(churns.size()-1-i);
+		}
+		sma = (double)sma/OL;
+		
+		// linear part
+		double ema = 0;
+		ema = (lastObservation - lastEMA);
+		
+		// repsonse part
+		double re = 0;
+		if(emas.size()-1>0){
+			re = (ema - (churns.get(churns.size()-2) - emas.get(emas.size()-2)));
+		}
+		
+		result = k1 * sma + k2 * sma + k3 * re;
+		return result;
+	}
 }
