@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class MySimulator{
 	private static int mDataPoints = 500;
-	private static int[] mOLs = {5,10,15,20,30,40,50,60};
+	private static int[] mOLs = {10,20,40,60};
 	private static int peerSize = 1000;
-	private static int mChurnFluctuation = 15;
+	private static int mChurnFluctuation = 10;
 	private static int mInitChurn = 150;
 		
 	public static void main(String[] args){
@@ -38,9 +38,11 @@ public class MySimulator{
 			int join = c.generate(lastChurnSize);
 			leavingChurns.add(leave);
 			lastChurnSize = leave;
-			peerSize = peerSize-leave+join;
 			
 			int RF = Replication.replicationFactor(leave, peerSize);
+			
+			peerSize = peerSize-leave+join;
+
 //			System.out.println(RF);
 //			System.out.println("churn"+count+" - "+"leave:"+leave+" join:"+join+" peerSize: "+peerSize);
 			for(int i=0;i<mOLs.length;i++){
@@ -65,10 +67,10 @@ public class MySimulator{
 				
 				// compare previous predicted value with current churn number
 				if(count>=OL){
-					if(Math.abs(currSmas.get(currSmas.size()-1)-leave)<15) win_sma[i]++;
-					if(Math.abs(currEmas.get(currEmas.size()-1)-leave)<15) win_ema[i]++;
-					if(Math.abs(currDemas.get(currDemas.size()-1)-leave)<15) win_dema[i]++;
-					if(Math.abs(currPidfes.get(currPidfes.size()-1)-leave)<15) win_pidfe[i]++;
+					if(Math.abs(currSmas.get(currSmas.size()-1)-leave)<10) win_sma[i]++;
+					if(Math.abs(currEmas.get(currEmas.size()-1)-leave)<10) win_ema[i]++;
+					if(Math.abs(currDemas.get(currDemas.size()-1)-leave)<10) win_dema[i]++;
+					if(Math.abs(currPidfes.get(currPidfes.size()-1)-leave)<10) win_pidfe[i]++;
 				}
 				
 				double predSma = pred.sma(leavingChurns,currSmas,OL);
