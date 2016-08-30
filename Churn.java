@@ -1,16 +1,17 @@
 package P2PSimulator;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Churn{
 	
-	private static double mChurnFluctuation = 10;
-	private static int mInitChurn = 100;
+	private int churnFluctuation;
 	
-	public static int generate(ArrayList<Integer> leavingChurns){
+	public Churn(int churnFluctuation){
+		this.churnFluctuation = churnFluctuation;
+	}
+	
+	public int generate(int lastChurnSize){
 		Random r = new Random();
-		int lastChurn = leavingChurns.size()==0? mInitChurn :leavingChurns.get(leavingChurns.size()-1);
-		return (int)(r.nextGaussian()*mChurnFluctuation)+lastChurn;		
+		return Math.max(0,(int)(r.nextGaussian()*churnFluctuation)+lastChurnSize);		
 	}	
 }
