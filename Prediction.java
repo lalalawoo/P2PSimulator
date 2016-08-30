@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Prediction{
+	private static double k1 = 1.0;
+	private static double k2 = 0.05;
+	private static double k3 = 0.02;
 	
 	public double sma(ArrayList<Integer> churns, ArrayList<Double> smas, int OL){
 		double sma = 0;
@@ -74,30 +77,25 @@ public class Prediction{
 		return r2;
 	}
 	
-	
-	public static double pidfe(ArrayList<Integer> churns, ArrayList<Double> emas, int OL, double k1, double k2, double k3){
-		double result;
+	public double pidfe(ArrayList<Integer> churns, ArrayList<Double> pidfes, int OL){
+
 		final int lastObservation = churns.get(churns.size() - 1);
-		final double lastEMA = emas.get(emas.size() - 1);
+		final double lastPIDFE = pidfes.get(pidfes.size() - 1);
 		
 		// averaging part
-		double sma = 0;
+		double avg = 0;
 		for(int i=0;i<OL;i++){
-				sma+=churns.get(churns.size()-1-i);
+				avg+=churns.get(churns.size()-1-i);
 		}
-		sma = (double)sma/OL;
+		avg = (double)avg/OL;
 		
 		// linear part
-		double ema = 0;
-		ema = (lastObservation - lastEMA);
+		double delta = (lastObservation - lastPIDFE);
+		double alpha = 2.0/(OL+1);
 		
-		// repsonse part
-		double re = 0;
-		if(emas.size()-1>0){
-			re = (ema - (churns.get(churns.size()-2) - emas.get(emas.size()-2)));
-		}
+		// response part
+		double re = (lastPIDFE - (churns.get(churns.size()-2) - pidfes.get(pidfes.size()-2)));		
 		
-		result = k1 * sma + k2 * sma + k3 * re;
-		return result;
+		return k1 * avg + alpha * delta + k3 * re;
 	}
 }
