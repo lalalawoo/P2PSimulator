@@ -94,7 +94,7 @@ public class Prediction{
 		double alpha = 2.0/(OL+1);
 		
 		// response part
-		double re = (lastPIDFE - (churns.get(churns.size()-2) - pidfes.get(pidfes.size()-2)));		
+		double re = (delta - (churns.get(churns.size()-2) - pidfes.get(pidfes.size()-2)));		
 		
 		return k1 * avg + alpha * delta + k3 * re;
 	}
