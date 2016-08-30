@@ -1,11 +1,9 @@
 package P2PSimulator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Prediction{
-	
-	//hello world
-	
 	
 	public double sma(ArrayList<Integer> churns, ArrayList<Double> smas, int OL){
 		double sma = 0;
@@ -15,26 +13,23 @@ public class Prediction{
 		return (double)sma/OL;		
 	}
 
-	public static double ema(ArrayList<Integer> churns, ArrayList<Double> emas, int OL){
+	public double ema(ArrayList<Integer> churns, ArrayList<Double> emas, int OL){
 		double alpha = 2.0/(OL+1);
 		final int lastObservation = churns.get(churns.size() - 1);
 		final double lastEMA = emas.get(emas.size() - 1);
 		// EMA today = EMA_yesterday + alpha * (value_today - EMA_yesterday)
 		return lastEMA + (alpha * (lastObservation - lastEMA));	
-	
 	}
 	
 	public double dema(ArrayList<Integer> churns, ArrayList<Double> demas, int OL){
-		double alpha = bestSmoothingFactor(churns, demas);
+		double alpha = bestSmoothingFactor(churns.subList(churns.size()-OL, churns.size()), demas.subList(demas.size()-OL, demas.size()));
 		final int lastObservation = churns.get(churns.size() - 1);
 		final double lastEMA = demas.get(demas.size() - 1);
 		// EMA today = EMA_yesterday + alpha * (value_today - EMA_yesterday)
 		return lastEMA + (alpha * (lastObservation - lastEMA));
 	}
 	
-
-	
-	public double bestSmoothingFactor(ArrayList<Integer> x, ArrayList<Double> y) {
+	public double bestSmoothingFactor(List<Integer> x, List<Double> y) {
 		final int size = x.size();
 		double max = 0;
 		int interval = size;
@@ -49,7 +44,7 @@ public class Prediction{
 		return 2.0 / (interval + 1);
 	}	
 	
-	public double linearRegression(final ArrayList<Integer> x, final ArrayList<Double> y, final int n) {
+	public double linearRegression(final List<Integer> x, final List<Double> y, final int n) {
 		// first pass: read in data, compute xbar and ybar
 		double sumx = 0.0, sumy = 0.0;
 		for (int i = n - 1; i >= 0; i--) {
