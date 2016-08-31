@@ -9,11 +9,11 @@ import java.util.Map.Entry;
 public class DataLossTest{
 	private static int mDataPoints = 500;
 	private static int mOL = 10;
-	private static int mInitPeerSize = 500;
-	private static int mChurnFluctuation = 5;
+	private static int mInitPeerSize = 5000;
+	private static int mChurnFluctuation = 10;
 	private static int mInitChurn = 100;
 	private static ArrayList<Integer> peerMap = new ArrayList<>();
-	private static int maxPeerNr = 999;
+	private static int maxPeerNr = 5999;
 	private static HashMap<Integer,ArrayList<Integer>> dataKeys = new HashMap<>();
 	private static int initKeySize;
 	
@@ -62,12 +62,12 @@ public class DataLossTest{
 			int predRF = Replication.replicationFactor((int)predDema, peerMap.size());
 			removeReplica(dataKeys,removingPeers);
 			replicateData(dataKeys,predRF);
-			if(count%60==0){
-				System.out.println("Interval" + count/60 + ": dataloss is " + (1.0-(double)dataKeys.size()/initKeySize));
+			if(count%100==0){
+				System.out.println("Interval " + count + ": dataloss is " + (1.0-(double)dataKeys.size()/initKeySize)*100+"%");
 			}
 			count++;
 		}
-		System.out.println("Interval" + Math.ceil(count/60) + ": dataloss is " + (1.0-(double)dataKeys.size()/initKeySize));
+		System.out.println("Interval final" + ": dataloss is " + (1.0-(double)dataKeys.size()/initKeySize)*100+"%");
 	}
 	
 	public static ArrayList<Integer> removePeers(int peerLeavingSize){
