@@ -8,11 +8,11 @@ def create_line_chart():
 
     observation_lengths = [10, 20, 40, 60]
     colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'brown', 'gray', 'black']
-    actual_churn_data = "outputExample/churns.csv"
-    algos = {'smas': {'name': 'Simple Moving Average', 'file_path': 'outputExample/smas.csv'},
-             'emas': {'name': 'Exponential Moving Average', 'file_path': 'outputExample/emas.csv'},
-             'demas': {'name': 'Dynamic Exponential Moving Average', 'file_path': 'outputExample/demas.csv'},
-             'pidfe': {'name': 'PID Feedback Estimator', 'file_path': 'outputExample/pidfe.csv'}
+    actual_churn_data = "churns.csv"
+    algos = {'smas': {'name': 'Simple Moving Average', 'file_path': 'smas.csv'},
+             'emas': {'name': 'Exponential Moving Average', 'file_path': 'emas.csv'},
+             'demas': {'name': 'Dynamic Exponential Moving Average', 'file_path': 'demas.csv'},
+             'pidfe': {'name': 'PID Feedback Estimator', 'file_path': 'pidfes.csv'}
             }
     churn_data = np.genfromtxt(actual_churn_data, delimiter=',', dtype=float)
     for algo in algos.keys():
@@ -34,11 +34,11 @@ def comparison_ol_chart():
     observation_lengths = [10, 20, 40, 60]
     start = 270
     end = 459
-    actual_churn_data = "outputExample/churns.csv"
-    algos = {'smas': {'name': 'Simple Moving Average', 'file_path': 'outputExample/smas.csv', 'color': 'red'},
-             'emas': {'name': 'Exponential Moving Average', 'file_path': 'outputExample/emas.csv', 'color': 'green'},
-             'demas': {'name': 'Dynamic Exponential Moving Average', 'file_path': 'outputExample/demas.csv', 'color': 'orange'},
-             'pidfe': {'name': 'PID Feedback Estimator', 'file_path': 'outputExample/pidfe.csv', 'color': 'purple'}
+    actual_churn_data = "churns.csv"
+    algos = {'smas': {'name': 'Simple Moving Average', 'file_path': 'smas.csv', 'color': 'red'},
+             'emas': {'name': 'Exponential Moving Average', 'file_path': 'emas.csv', 'color': 'green'},
+             'demas': {'name': 'Dynamic Exponential Moving Average', 'file_path': 'demas.csv', 'color': 'orange'},
+             'pidfe': {'name': 'PID Feedback Estimator', 'file_path': 'pidfes.csv', 'color': 'purple'}
              }
     churn_data = np.genfromtxt(actual_churn_data, delimiter=',', dtype=float)
     churn_data = churn_data[start:end+1]
@@ -64,7 +64,7 @@ def comparison_ol_chart():
 
 
 def create_2d_rf_bar_chart():
-    rf_path = "outputExample/rfAccuracy.csv"
+    rf_path = "rfAccuracy.csv"
     data = np.genfromtxt(rf_path, delimiter=',', dtype=float)
 
     fig = plt.figure()
@@ -72,20 +72,20 @@ def create_2d_rf_bar_chart():
 
     for c, z in zip(['r', 'g', 'b', 'black'], [0, 1, 2, 3]):
         ys = data[z]
-        xs = [i for i in xrange(len(ys))]
+        xs = [10, 20, 40, 60]
         cs = [c] * len(ys)
         ax.bar(xs, ys, zs=z, zdir='y', color=cs, alpha=0.8,)
 
     ax.set_xlabel('Observation Length')
     ax.set_ylabel('Prediction Algorithm')
     ax.set_zlabel('RF Accuracy')
-    ax.set_yticks([0, 1, 2])
+    ax.set_yticks([0, 1, 2, 3])
     ax.set_yticklabels(['SMA', 'EMA', 'DEMA', 'PIDFE'])
     fig.savefig('rf_accuracy.pdf')
 
 
 def create_2d_wp_bar_chart():
-    rf_path = "outputExample/winPercent.csv"
+    rf_path = "winPercent.csv"
     data = np.genfromtxt(rf_path, delimiter=',', dtype=float)
 
     fig = plt.figure()
@@ -93,15 +93,15 @@ def create_2d_wp_bar_chart():
 
     for c, z in zip(['r', 'g', 'b', 'black'], [0, 1, 2, 3]):
         ys = data[z]
-        xs = [i for i in xrange(len(ys))]
+        xs = [10, 20, 40, 60]
         cs = [c] * len(ys)
         ax.bar(xs, ys, zs=z, zdir='y', color=cs, alpha=0.8,)
 
     ax.set_xlabel('Observation Length')
     ax.set_ylabel('Prediction Algorithm')
     ax.set_zlabel('Proportion of Wins')
-    ax.set_yticks([0, 1, 2])
-    ax.set_yticklabels(['SMA', 'EMA', 'DEMA'])
+    ax.set_yticks([0, 1, 2, 3])
+    ax.set_yticklabels(['SMA', 'EMA', 'DEMA', 'PIDFE'])
     fig.savefig('wp.pdf')
 
 
